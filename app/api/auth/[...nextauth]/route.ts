@@ -28,14 +28,14 @@ export const authOptions: NextAuthOptions = {
       authorization: {
         url: 'https://flow.polar.com/oauth2/authorization',
         params: {
-          client_id: '92688c57-d13b-46da-bbc2-450865b6fb15',
+          client_id: process.env.POLAR_CLIENT_ID,
           response_type: 'code',
           scope: 'accesslink.read_all',
           redirect_uri: 'http://localhost:3000/api/auth/callback/polar',
         },
       },
       token: 'https://polarremote.com/v2/oauth2/token',
-      clientId: '92688c57-d13b-46da-bbc2-450865b6fb15',
+      clientId: process.env.POLAR_CLIENT_ID,
       clientSecret: process.env.POLAR_CLIENT_SECRET,
       userinfo: {
         async request(context) {
