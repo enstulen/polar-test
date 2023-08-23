@@ -31,7 +31,7 @@ export const authOptions: NextAuthOptions = {
           client_id: process.env.POLAR_CLIENT_ID,
           response_type: 'code',
           scope: 'accesslink.read_all',
-          redirect_uri: 'http://localhost:3000/api/auth/callback/polar',
+          redirect_uri: `${process.env.BASE_URL}/api/auth/callback/polar`,
         },
       },
       token: 'https://polarremote.com/v2/oauth2/token',
