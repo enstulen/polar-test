@@ -1,20 +1,28 @@
 import NextAuth, { NextAuthOptions } from 'next-auth'
 
+const defaultHeaders = () => {
+  return {
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+  }
+}
+
+const headers = (accessToken: string) => {
+  return {
+    ...defaultHeaders(),
+    Authorization: `Bearer ${accessToken}`,
+  }
+}
+
 const registerUser = async (accessToken: string, userId: string) => {
   const inputBody = {
     'member-id': userId,
   }
 
-  const headers = {
-    'Content-Type': 'application/json',
-    Accept: 'application/json',
-    Authorization: `Bearer ${accessToken}`,
-  }
-
   return fetch('https://www.polaraccesslink.com/v3/users', {
     method: 'POST',
     body: JSON.stringify(inputBody),
-    headers: headers,
+    headers: headers(accessToken),
   })
 }
 
@@ -44,15 +52,12 @@ export const authOptions: NextAuthOptions = {
               context.tokens.access_token,
               context.tokens.x_user_id as string
             )
-            const headers = {
-              Accept: 'application/json',
-              Authorization: `Bearer ${context.tokens.access_token}`,
-            }
+
             const userInfo = await fetch(
               `https://www.polaraccesslink.com/v3/users/${context.tokens.x_user_id}`,
               {
                 method: 'GET',
-                headers: headers,
+                headers: headers(context.tokens.access_token),
               }
             )
 
